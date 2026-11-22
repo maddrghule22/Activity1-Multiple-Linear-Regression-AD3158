@@ -25,6 +25,7 @@ The project investigates multi-variable housing appraisal dynamics using both **
 
 ## 📊 Dataset Description, Currency & Provenance
 - **Dataset Source**: [Kaggle Housing Prices Dataset (by Yasser Hesham)](https://www.kaggle.com/datasets/yasserh/housing-prices-dataset)
+  - *Provenance Note*: The dataset reflects standard empirical real estate records widely referenced in econometrics coursework. As with public instructional datasets, specific municipal jurisdiction details are not formally recorded in the source metadata and would require manual confirmation if applied to institutional municipal planning.
 - **Currency Standard**: **Indian Rupees (₹ / INR)**. Prices in the dataset range from **₹1,750,000 (₹17.5 Lakhs)** to **₹13,300,000 (₹1.33 Crore)**, with a sample mean of **₹4,766,729 (~₹47.67 Lakhs)**.
 - **Dataset Dimensions**: **545 residential properties**, **14 columns**.
 - **Target Variable**: `price` (Continuous house sale price in Indian Rupees ₹).
@@ -55,8 +56,8 @@ $$\widehat{\text{Price}} = -17.664580 + (0.593427 \times Area_k) + (6.640338 \ti
 
 - **Manual Prediction (Sample 1: $7,420$ sqft, $4$ Beds)**: $\hat{y}_1 = \text{₹ }13.300000 \text{ Millions (₹ }13,300,000.00)$
 - **Residual Calculation (Sample 1)**: $\text{Residual}_1 = y_1 - \hat{y}_1 = 13.300000 - 13.300000 = \mathbf{\text{₹ }0.000000}$
-- **Manual Prediction (Sample 2: $8,400$ sqft, $3$ Beds)**: $\hat{y}_2 = \text{₹ }10.089671 \text{ Millions (₹ }10,089,671.47)$
-- **Residual Calculation (Sample 2)**: $\text{Residual}_2 = y_2 - \hat{y}_2 = 9.800000 - 10.089671 = \mathbf{+\text{₹ }-0.289671 \text{ Millions (+₹ }-289,671.47)}$
+- **Manual Prediction (Sample 2: $13,200$ sqft, $3$ Beds)**: $\hat{y}_2 = \text{₹ }10.089671 \text{ Millions (₹ }10,089,671.47)$
+- **Residual Calculation (Sample 2)**: $\text{Residual}_2 = y_2 - \hat{y}_2 = 9.800000 - 10.089671 = \mathbf{-\text{₹ }0.289671 \text{ Millions (-\text{₹ }289,671.47)}}$
 
 ### Scikit-Learn Verification:
 All three coefficients match Scikit-learn outputs **exactly to 6 decimal places** (Absolute Difference = `0.000000`).  
@@ -67,11 +68,11 @@ All three coefficients match Scikit-learn outputs **exactly to 6 decimal places*
 ## 🏆 Empirical Model Comparison (Holdout Test Split, $N = 109$)
 All models were trained strictly on the 80% partition ($N = 436$) and evaluated on the 20% holdout split ($N = 109$, `random_state=42`):
 
-| Model Architecture | Inputs ($p$) | Holdout MAE (₹) | Holdout RMSE (₹) | $R^2$ Score | Adjusted $R^2$ | RMSE Reduction |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Naive Mean Baseline** | 0 | ₹1,748,624.61 | ₹2,268,298.23 | `-0.0179` | `-0.0179` | 0.0% (Reference) |
-| **Simple Linear Regression** | 1 (`area`) | ₹1,474,748.13 | ₹1,917,103.70 | `0.2729` | `0.2661` | **15.48%** |
-| **🏆 Multiple Linear Regression** | 5 | **₹1,247,620.42** | **₹1,616,896.69** | **`0.4828`** | **`0.4577`** | **28.72%** |
+| Model Architecture | Inputs ($p$) | Holdout MAE (₹) | Holdout MSE (₹²) | Holdout RMSE (₹) | $R^2$ Score | Adjusted $R^2$ | RMSE Reduction |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Naive Mean Baseline** | 0 | ₹1,748,624.61 | ₹5,145,176,852,226.26 | ₹2,268,298.23 | `-0.0179` | `-0.0179` | 0.0% (Reference) |
+| **Simple Linear Regression** | 1 (`area`) | ₹1,474,748.13 | ₹3,675,286,604,768.19 | ₹1,917,103.70 | `0.2729` | `0.2661` | **15.48%** |
+| **🏆 Multiple Linear Regression** | 5 | **₹1,247,620.42** | **₹2,614,354,893,741.87** | **₹1,616,896.69** | **`0.4828`** | **`0.4577`** | **28.72%** |
 
 ---
 
@@ -99,8 +100,8 @@ $$\beta_j^* = \beta_j \times \frac{\sigma_{x_j}}{\sigma_y}$$
 
 ## 🔬 Gauss-Markov Econometric Assumption Checks
 - **Multicollinearity (VIF)**: All VIF values are between **1.01 and 1.22** (threshold: 5.0), confirming that predictors are mutually independent and parameter estimates are mathematically stable.
-- **Independence (Durbin-Watson)**: **$d = 2.262$** ($pprox 2.0$), indicating zero residual autocorrelation.
-- **Homoscedasticity**: Residual errors are uniformly bounded across the fitted price spectrum.
+- **Independence (Durbin-Watson)**: **$d = 2.262$** ($pprox 2.0$), indicating no evidence of strong first-order residual autocorrelation in the cross-sectional sample. (Statistical test values near 2.0 indicate that residuals do not exhibit linear first-order serial correlation, rather than philosophically 'proving' zero autocorrelation in an absolute sense.)
+- **Homoscedasticity**: Residual errors are uniformly bounded across the fitted price spectrum without conical funneling.
 
 ---
 
@@ -129,7 +130,15 @@ $$\beta_j^* = \beta_j \times \frac{\sigma_{x_j}}{\sigma_y}$$
 git clone https://github.com/maddrghule22/Activity1-Multiple-Linear-Regression-AD3158.git
 cd Activity1-Multiple-Linear-Regression-AD3158
 
-# 2. Install dependencies
+# 2. Set up virtual environment and install dependencies
+python -m venv .venv
+
+# Command Prompt:
+.venv\Scripts\activate.bat
+
+# PowerShell:
+.\.venv\Scripts\Activate.ps1
+
 pip install -r requirements.txt
 
 # 3. Launch Jupyter Notebook
