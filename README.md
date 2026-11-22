@@ -10,7 +10,7 @@
 ---
 
 ## 📌 Project Overview
-This repository contains the complete, academically rigorous submission for **CIE 2 Activity 1: House Price Prediction Using Multiple Linear Regression** for Roll Number **22**.
+This repository contains the complete, academically rigorous submission for **CIE 2 Activity 1: House Price Prediction Using Multiple Linear Regression** for Roll Number **AD3158**.
 
 The project investigates property valuation dynamics using both **closed-form matrix linear algebra (Normal Equations)** and modern **Scikit-learn / Statsmodels** implementations. It rigorously contrasts a zero-information Mean Baseline, Simple Linear Regression (univariate), and Multiple Linear Regression (multivariate), checks all Gauss-Markov conditions, computes Variance Inflation Factors (VIF), and evaluates out-of-sample generalization.
 
@@ -110,8 +110,8 @@ $$\text{Price} = 322,922.37 + (307.42 \times \text{Area}) + (340,155.07 \times \
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/maddrghule22/Activity1-Multiple-Linear-Regression-22.git
-cd Activity1-Multiple-Linear-Regression-22
+git clone https://github.com/maddrghule22/Activity1-Multiple-Linear-Regression-AD3158.git
+cd Activity1-Multiple-Linear-Regression-AD3158
 
 # 2. Install dependencies
 pip install -r requirements.txt

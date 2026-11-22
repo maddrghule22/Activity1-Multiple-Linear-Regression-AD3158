@@ -1,7 +1,7 @@
 # Manual Multiple Linear Regression Calculation Worksheet
 ## CIE 2 — Activity 1: Matrix Inversion & Normal Equation Derivation
 ---
-- **Student**: Darshan Ghule (Roll No: 22)
+- **Student**: Darshan Ghule (Roll No: AD3158)
 - **Topic**: Closed-Form Ordinary Least Squares (OLS) Matrix Calculus
 - **Faculty Reference**: [https://github.com/complexiota](https://github.com/complexiota)
 
